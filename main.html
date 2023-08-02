@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ball Groups Finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f5ff; /* Nice blue background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        label {
+            margin-right: 10px;
+        }
+        input[type="number"] {
+            width: 80px;
+            padding: 5px;
+        }
+        .submit-btn {
+            margin-top: 10px;
+        }
+        button {
+            padding: 5px 15px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .results {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            max-width: 90%;
+            margin: 5px;
+        }
+        .explanation {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #ffeeba;
+            max-width: 90%;
+            margin: 5px;
+            vertical-align: bottom;
+        }
+        h2 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ball Groups Finder</h1>
+    <div class="form-container">
+        <label for="userNumber">Enter a number:</label>
+        <input type="number" id="userNumber" required>
+    </div>
+    <button class="submit-btn" onclick="findNumbers()">Find Numbers</button>
+    <div class="results" id="results"></div>
+    <div class="explanation">
+        <p>*Solutions are groups of balls.<br/>
+            **The leftmost group is the hundreds digit and the rightmost is the singles.</p>
+
+    </div>
+    <script>
+        // Function to handle form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            findNumbers();
+        }
+
+        function findNumbers() {
+            const userNumber = parseInt(document.getElementById('userNumber').value);
+            const dictionary = {774: [[123, 456, 789]], 783: [[123, 457, 689]], 792: [[123, 458, 679], [123, 467, 589]], 801: [[123, 459, 678], [123, 468, 579]], 810: [[123, 469, 578], [123, 478, 569]], 819: [[123, 479, 568]], 828: [[123, 489, 567]], 864: [[124, 356, 789]], 873: [[124, 357, 689]], 882: [[124, 358, 679], [124, 367, 589]], 891: [[124, 359, 678], [124, 368, 579]], 900: [[124, 369, 578], [124, 378, 569]], 909: [[124, 379, 568]], 918: [[124, 389, 567]], 954: [[125, 346, 789], [134, 256, 789]], 963: [[125, 347, 689], [134, 257, 689]], 972: [[125, 348, 679], [134, 258, 679], [134, 267, 589]], 981: [[125, 349, 678], [125, 367, 489], [134, 259, 678], [134, 268, 579]], 990: [[125, 368, 479], [134, 269, 578], [134, 278, 569]], 999: [[125, 369, 478], [125, 378, 469], [134, 279, 568]], 1008: [[125, 379, 468], [134, 289, 567]], 1017: [[125, 389, 467]], 1044: [[126, 345, 789], [135, 246, 789]], 1062: [[126, 347, 589], [135, 248, 679]], 1071: [[126, 348, 579], [126, 357, 489], [135, 249, 678], [135, 267, 489]], 1080: [[126, 349, 578], [126, 358, 479], [135, 268, 479]], 1089: [[126, 359, 478], [135, 269, 478], [135, 278, 469]], 1098: [[126, 378, 459], [135, 279, 468]], 1107: [[126, 379, 458], [135, 289, 467]], 1116: [[126, 389, 457]], 1143: [[127, 345, 689], [145, 237, 689]], 1152: [[127, 346, 589], [136, 247, 589], [145, 238, 679]], 1170: [[127, 348, 569], [136, 249, 578], [136, 258, 479], [145, 267, 389]], 1179: [[127, 349, 568], [127, 358, 469], [136, 259, 478], [145, 268, 379]], 1161: [[127, 356, 489], [136, 248, 579], [136, 257, 489], [145, 239, 678]], 1188: [[127, 359, 468], [127, 368, 459], [136, 278, 459], [145, 269, 378], [145, 278, 369]], 1197: [[127, 369, 458], [136, 279, 458], [145, 279, 368]], 1215: [[127, 389, 456]], 1242: [[128, 345, 679], [137, 246, 589], [146, 237, 589]], 1251: [[128, 346, 579], [137, 256, 489], [146, 238, 579]], 1260: [[128, 347, 569], [128, 356, 479], [137, 248, 569], [146, 239, 578], [146, 257, 389]], 1278: [[128, 349, 567], [128, 367, 459], [137, 259, 468], [137, 268, 459], [146, 259, 378]], 1269: [[128, 357, 469], [137, 249, 568], [137, 258, 469], [146, 258, 379]], 1287: [[128, 359, 467], [137, 269, 458], [146, 278, 359]], 1296: [[128, 369, 457], [146, 279, 358]], 1305: [[128, 379, 456], [137, 289, 456], [146, 289, 357]], 1341: [[129, 345, 678], [138, 246, 579], [156, 237, 489]], 1350: [[129, 346, 578], [138, 247, 569], [138, 256, 479], [147, 238, 569], [147, 256, 389], [156, 238, 479], [156, 247, 389]], 1359: [[129, 347, 568], [129, 356, 478], [138, 257, 469], [147, 239, 568], [156, 239, 478], [156, 248, 379]], 1368: [[129, 348, 567], [129, 357, 468], [138, 249, 567], [138, 267, 459], [147, 258, 369], [156, 249, 378]], 1377: [[129, 358, 467], [129, 367, 458], [138, 259, 467], [147, 259, 368], [147, 268, 359]], 1386: [[129, 368, 457], [138, 269, 457], [147, 269, 358], [156, 278, 349]], 1395: [[129, 378, 456], [138, 279, 456], [156, 279, 348]], 1053: [[135, 247, 689]], 1134: [[136, 245, 789], [145, 236, 789]], 1206: [[136, 289, 457], [145, 289, 367]], 1233: [[137, 245, 689]], 1332: [[138, 245, 679], [147, 236, 589]], 1431: [[139, 245, 678], [148, 236, 579], [157, 236, 489]], 1440: [[139, 246, 578], [148, 237, 569], [157, 246, 389]], 1449: [[139, 247, 568], [139, 256, 478], [148, 256, 379], [157, 238, 469]], 1458: [[139, 248, 567], [139, 257, 468], [148, 239, 567], [148, 257, 369], [157, 239, 468], [157, 248, 369]], 1467: [[139, 258, 467], [139, 267, 458], [148, 267, 359], [157, 249, 368]], 1476: [[139, 268, 457], [148, 259, 367], [157, 268, 349]], 1485: [[139, 278, 456], [148, 269, 357], [157, 269, 348]], 1224: [[146, 235, 789]], 1323: [[147, 235, 689]], 1404: [[147, 289, 356], [156, 289, 347]], 1422: [[148, 235, 679]], 1494: [[148, 279, 356]], 1521: [[149, 235, 678], [167, 235, 489]], 1530: [[149, 236, 578], [158, 236, 479], [167, 245, 389]], 1539: [[149, 237, 568], [158, 237, 469], [158, 246, 379]], 1548: [[149, 238, 567], [149, 256, 378], [158, 247, 369], [167, 238, 459]], 1557: [[149, 257, 368], [158, 239, 467], [167, 239, 458], [167, 248, 359]], 1566: [[149, 258, 367], [149, 267, 358], [158, 249, 367], [158, 267, 349], [167, 249, 358], [167, 258, 349]], 1575: [[149, 268, 357], [167, 259, 348]], 1584: [[149, 278, 356], [158, 269, 347]], 1314: [[156, 234, 789]], 1413: [[157, 234, 689]], 1503: [[157, 289, 346]], 1512: [[158, 234, 679], [167, 234, 589]], 1593: [[158, 279, 346]], 1611: [[159, 234, 678], [168, 234, 579]], 1629: [[159, 236, 478], [168, 245, 379]], 1638: [[159, 237, 468], [159, 246, 378], [168, 237, 459]], 1647: [[159, 238, 467], [159, 247, 368], [168, 247, 359]], 1656: [[159, 248, 367], [168, 239, 457], [168, 257, 349]], 1665: [[159, 267, 348], [168, 249, 357]], 1674: [[159, 268, 347], [168, 259, 347]], 1683: [[159, 278, 346]], 1602: [[167, 289, 345]], 1620: [[168, 235, 479]], 1692: [[168, 279, 345]], 1710: [[169, 234, 578], [178, 234, 569]], 1719: [[169, 235, 478], [178, 235, 469]], 1737: [[169, 237, 458], [178, 246, 359]], 1746: [[169, 238, 457], [169, 247, 358], [178, 256, 349]], 1728: [[169, 245, 378], [178, 236, 459], [178, 245, 369]], 1755: [[169, 248, 357], [169, 257, 348], [178, 239, 456]], 1764: [[169, 258, 347], [178, 249, 356]], 1782: [[169, 278, 345], [178, 269, 345]], 1773: [[178, 259, 346]], 1809: [[179, 234, 568]], 1818: [[179, 235, 468]], 1827: [[179, 236, 458], [179, 245, 368]], 1845: [[179, 238, 456], [179, 256, 348]], 1836: [[179, 246, 358]], 1854: [[179, 248, 356]], 1863: [[179, 258, 346]], 1872: [[179, 268, 345]], 1908: [[189, 234, 567]], 1917: [[189, 235, 467]], 1926: [[189, 236, 457], [189, 245, 367]], 1935: [[189, 237, 456], [189, 246, 357]], 1944: [[189, 247, 356], [189, 256, 347]], 1953: [[189, 257, 346]], 1962: [[189, 267, 345]]};
+
+            const closestNumber = findClosestNumber(userNumber, Object.keys(dictionary));
+            const solutions = dictionary[userNumber];
+
+            const resultDiv = document.getElementById('results');
+            resultDiv.innerHTML = '';
+
+            if (solutions) {
+                const header = document.createElement('h2');
+                header.innerText = `Numbers to Use for ${userNumber}:`;
+                resultDiv.appendChild(header);
+
+                solutions.forEach((solution, index) => {
+                    const solutionText = document.createElement('p');
+                    solutionText.innerText = `Solution ${index + 1}: ${solution.join(', ')}`;
+                    resultDiv.appendChild(solutionText);
+                });
+            } else {
+                const noSolutionText = document.createElement('p');
+                noSolutionText.innerText = `No solution found for ${userNumber}. Closest solution is for ${closestNumber}.`;
+                resultDiv.appendChild(noSolutionText);
+
+                if (closestNumber !== userNumber) {
+                    const closestSolutions = dictionary[closestNumber];
+
+                    if (closestSolutions) {
+                        const closestHeader = document.createElement('h2');
+                        closestHeader.innerText = `Numbers to Use for Closest Number (${closestNumber}):`;
+                        resultDiv.appendChild(closestHeader);
+
+                        closestSolutions.forEach((solution, index) => {
+                            const solutionText = document.createElement('p');
+                            solutionText.innerText = `Solution ${index + 1}: ${solution.join(', ')}`;
+                            resultDiv.appendChild(solutionText);
+                        });
+                    }
+                }
+            }
+        }
+
+        function findClosestNumber(targetNumber, numbersArray) {
+            return numbersArray.reduce((prev, curr) => {
+                return Math.abs(curr - targetNumber) < Math.abs(prev - targetNumber) ? curr : prev;
+            });
+        }
+
+        // Listen for Enter key press and submit the form
+        const form = document.querySelector('.form-container');
+        form.addEventListener('submit', handleSubmit);
+    </script>
+</body>
+</html>
