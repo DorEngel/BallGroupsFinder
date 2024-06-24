@@ -4,89 +4,168 @@
     <title>Ball Groups Finder</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f5ff; /* Nice blue background */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .form-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        label {
-            margin-right: 10px;
-        }
-        input[type="number"] {
-            width: 80px;
-            padding: 5px;
-        }
-        .submit-btn {
-            margin-top: 10px;
-        }
-        button {
-            padding: 5px 15px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-        }
-        .results {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            max-width: 90%;
-            margin: 5px;
-        }
-        .explanation {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #ffeeba;
-            max-width: 90%;
-            margin: 5px;
-            vertical-align: bottom;
-        }
-        h2 {
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-        p {
-            margin: 5px 0;
-        }
+         body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f5ff; /* Nice blue background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container, .email-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+label {
+    margin-right: 10px;
+}
+
+input[type="number"], input[type="text"], input[type="email"] {
+    width: 200px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.submit-btn, .email-submit-btn {
+    margin-top: 10px;
+}
+
+button {
+    padding: 5px 15px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.results, .explanation {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    max-width: 90%;
+    margin: 5px;
+}
+
+.explanation {
+    background-color: #ffeeba;
+}
+
+h2 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+p {
+    margin: 5px 0;
+}
+
+/* Additional styles for content and email form containers to ensure alignment */
+#content, #email-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
     </style>
 </head>
 <body>
-    <h1>Ball Groups Finder</h1>
-    <div class="form-container">
-        <label for="userNumber">Enter a number:</label>
-        <input type="number" id="userNumber" required>
-    </div>
-    <button class="submit-btn" onclick="findNumbers()">Find Numbers</button>
-    <div class="results" id="results"></div>
-    <div class="explanation">
-        <p>*Solutions are groups of balls.<br/>
+    <div id="content">
+        <h1>Ball Groups Finder</h1>
+        <div class="form-container">
+            <label for="userNumber">Enter a number:</label>
+            <input type="number" id="userNumber" required>
+        </div>
+        <button class="submit-btn" onclick="findNumbers()">Find Numbers</button>
+        <div class="results" id="results"></div>
+        <div class="explanation">
+            <p>*Solutions are groups of balls.<br/>
             **The leftmost group is the hundreds digit and the rightmost is the singles.</p>
-
+        </div>
+    </div>
+    <div id="email-form" class="email-form-container" style="display:none;">
+        <h1>Sign Up</h1>
+        <form id="emailSignupForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="text" id="fullName" placeholder="Full Name" required>
+            <label>
+                <input type="checkbox" id="agreement" required> Agree to receive communications
+            </label>
+            <button class="email-submit-btn" type="submit">Submit</button>
+        </form>
     </div>
     <script>
-        // Function to handle form submission
-        function handleSubmit(event) {
-            event.preventDefault();
-            findNumbers();
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "")  + expires + "; path=/";
         }
+
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        window.onload = function() {
+            if (!getCookie('userLoggedIn')) {
+                document.getElementById('content').style.display = 'none';
+                document.getElementById('email-form').style.display = 'flex';
+            }
+        }
+
+        document.getElementById('emailSignupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var email = document.getElementById('email').value;
+            var fullName = document.getElementById('fullName').value;
+            var agreement = document.getElementById('agreement').checked;
+
+            var data = {
+                email: email,
+                fullName: fullName,
+                agreement: agreement
+            };
+
+            fetch('https://hook.eu1.make.com/19wkkhao48ce7li5u68qxboz32d6e3y3', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response)
+            .then(data => {
+                setCookie('userLoggedIn', 'true', 30);
+                document.getElementById('email-form').style.display = 'none';
+                document.getElementById('content').style.display = 'flex';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
 
         function findNumbers() {
             const userNumber = parseInt(document.getElementById('userNumber').value);
