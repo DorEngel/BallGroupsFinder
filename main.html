@@ -4,7 +4,7 @@
     <title>Ball Groups Finder</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-         body {
+body {
     font-family: Arial, sans-serif;
     background-color: #f0f5ff; /* Nice blue background */
     display: flex;
@@ -31,24 +31,26 @@ label {
     margin-right: 10px;
 }
 
-input[type="number"], input[type="text"], input[type="email"] {
-    width: 200px;
-    padding: 5px;
+input[type="number"], input[type="text"], input[type="email"], label, button {
+    width: 100%;
+    padding: 10px;
     margin-bottom: 10px;
+    box-sizing: border-box;
 }
 
 .submit-btn, .email-submit-btn {
     margin-top: 10px;
+    width: 100%;
+    text-align: center;
 }
 
 button {
-    padding: 5px 15px;
+    padding: 10px;
     background-color: #4CAF50;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 5px;
 }
 
 .results, .explanation {
@@ -79,7 +81,23 @@ p {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    box-sizing: border-box;
 }
+
+/* Responsive styles for smaller screens */
+@media (max-width: 600px) {
+    input[type="number"], input[type="text"], input[type="email"], label, button {
+        width: 100%;
+    }
+
+    .submit-btn, .email-submit-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
 
     </style>
 </head>
@@ -103,7 +121,7 @@ p {
             <input type="email" id="email" placeholder="Email" required>
             <input type="text" id="fullName" placeholder="Full Name" required>
             <label>
-                <input type="checkbox" id="agreement" required> Agree to receive communications
+                <input type="checkbox" id="agreement" style="font-size: 5px" required>I agree to receive occasional email communications from Lior Manor or Dor Engel regarding magic and mentalism products and ideas
             </label>
             <button class="email-submit-btn" type="submit">Submit</button>
         </form>
